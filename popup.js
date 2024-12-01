@@ -21,14 +21,19 @@ document.getElementById("generate-question").addEventListener("click", () => {
                 files: ["content.js"]
             },
             () => {
+                console.log("Sending message to content.js...");
                 chrome.tabs.sendMessage(thisTabId, { action: "displayQuestion" }, (response) => {
                     if (chrome.runtime.lastError) {
-                        console.error("Error:", chrome.runtime.lastError.message);
-                        document.getElementById("output").textContent = "Failed to generate question.";
-                    } else {
-                        document.getElementById("output").textContent = response || "Cannot generate question.";
+                        console.error("MY Error:", chrome.runtime.lastError.message);
+                        document.getElementById("output").textContent = "Error: Unable to generate question.";
+                        return;
                     }
-                });
+                    if (response) {
+                        document.getElementById("output").textContent = response;
+                    } else {
+                        document.getElementById("output").textContent = "Failed to generate question.";
+                    }
+                });                
             }
 
         );
