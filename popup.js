@@ -15,11 +15,23 @@ document.getElementById("generate-question").addEventListener("click", () => {
             return;
         }
         //run content.js
-        chrome.scripting.executeScript({
-            target: {tabId: thisTabId},
-            files: ["content.js"]
+        chrome.scripting.executeScript(
+            {
+                target: {tabId: thisTabId},
+                files: ["content.js"]
+            },
+            () => {
+                chrome.tabs.sendMessage(thisTabId, { action: "displayQuestion" }, (response) => {
+                    if (chrome.runtime.lastError) {
+                        console.error("Error:", chrome.runtime.lastError.message);
+                        document.getElementById("output").textContent = "Failed to generate question.";
+                    } else {
+                        document.getElementById("output").textContent = response || "Cannot generate question.";
+                    }
+                });
+            }
 
-        })
+        );
         
     })
 });
