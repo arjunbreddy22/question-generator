@@ -1,4 +1,4 @@
-import CONFIG from './config.js';
+
 
 //STILL NEED TO FIX INJECTING CONTENT.JS MULTIPLE TIMES ISSUE
 //display content to popup
@@ -13,7 +13,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ${CONFIG.API_KEY}'
+                        'Authorization': "Bearer API-KEY"
                     },
                     body: JSON.stringify({
                         model: "gpt-4o",
