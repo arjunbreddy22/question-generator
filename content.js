@@ -8,42 +8,49 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     const selectedText = window.getSelection().toString().trim();
     if (message.action === "displayQuestion") {
         (async () => {
-            try {
-                const response = await fetch("https://api.openai.com/v1/chat/completions", {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': "Bearer API-KEY"
-                    },
-                    body: JSON.stringify({
-                        model: "gpt-4o",
-                        messages: [
-                            { 
-                                role: "system", 
-                                content: "You are a helpful assistant that generates one question based on provided text."
-                            },
-                            {
-                                role: "user",
-                                content: `Create a question based on the following text:\n\n"${selectedText}"`
-                            }
-                        ],
-                        temperature: 0.7
-                    })
-                });
+            
+            chrome.runtime.sendMessage({action: "fetchKey"}, async (apiKey) => {
+              
+           
+                console.log(apiKey);
+                try {
+                    const response = await fetch("https://api.openai.com/v1/chat/completions", {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${apiKey}`
+                        },
+                        body: JSON.stringify({
+                            model: "gpt-4o",
+                            messages: [
+                                { 
+                                    role: "system", 
+                                    content: "You are a helpful assistant that generates one question based on provided text."
+                                },
+                                {
+                                    role: "user",
+                                    content: `Create a question based on the following text:\n\n"${selectedText}"`
+                                }
+                            ],
+                            temperature: 0.7
+                        })
+                    });
 
-                if (response.ok) {
-                    const data = await response.json();
-                    const question = data.choices[0].message.content.trim();
-                    console.log("Sending response...");
-                    sendResponse(question);
-                } else {
-                    console.error("Error:", response.statusText);
+                    if (response.ok) {
+                        const data = await response.json();
+                        const question = data.choices[0].message.content.trim();
+                        console.log("Sending response...");
+                        sendResponse(question);
+                    } else {
+                        console.error("Error:", response.statusText);
+                        sendResponse(null);
+                    }
+                } catch (error) {
+                    console.error("Fetch error:", error);
                     sendResponse(null);
                 }
-            } catch (error) {
-                console.error("Fetch error:", error);
-                sendResponse(null);
-            }
+                
+            });
         })();
         return true;
     } 
