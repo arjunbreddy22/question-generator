@@ -18,7 +18,7 @@ document.getElementById("generate-question").addEventListener("click", () => {
         chrome.scripting.executeScript(
             {
                 target: {tabId: thisTabId},
-                files: ["content.js"]
+                func: injectContentScript
             },
             () => {
                 console.log("Sending message to content.js...");
@@ -35,8 +35,21 @@ document.getElementById("generate-question").addEventListener("click", () => {
                     }
                 });                
             }
-
         );
+        function injectContentScript() {
+            if (!window.injectContentScriptFlag) {
+                window.injectContentScriptFlag = true;
+                console.log("Content.js injected for the first time in popup.js");
+                chrome.scripting.executeScript(
+                    {
+                        target: {tabId: thisTabId},
+                        files: ["content.js"]
+                    }
+                );
+            } else {
+                console.log("Content.js already injected by popup.js");
+            }
+        }
         
     })
 });
