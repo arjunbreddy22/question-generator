@@ -1,10 +1,8 @@
+
 document.getElementById("generate-question").addEventListener("click", () => {
     console.log("button clicked");
 
     //check if page valid:
-    
-   
-
     chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
         console.log('got to chrome.tabs.query');
         const thisTabId = tabs[0].id;
@@ -30,6 +28,8 @@ document.getElementById("generate-question").addEventListener("click", () => {
                     }
                     if (response) {
                         document.getElementById("output").textContent = response;
+                        document.getElementById("generate-question").style = "display:none";
+                        document.getElementById("get-answer").style = "display:block";
                     } else {
                         document.getElementById("output").textContent = "Failed to generate question.";
                     }
@@ -53,3 +53,22 @@ document.getElementById("generate-question").addEventListener("click", () => {
         
     })
 });
+
+document.getElementById("get-answer").addEventListener("click", () => {
+    chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
+        const myTab = tabs[0].id;
+        chrome.tabs.sendMessage(myTab, { action: "generateAnswer" }, (response) => {
+            if (chrome.runtime.lastError) {
+                console.error("MY Error:", chrome.runtime.lastError.message);
+                document.getElementById("output").textContent = "Error: Unable to generate answer.";
+                return;
+            }
+            if (response) {
+                document.getElementById("answer").textContent = response;
+            } else {
+                document.getElementById("output").textContent = "Failed to generate answer.";
+            }
+        });
+    });
+    
+})
