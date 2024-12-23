@@ -1,10 +1,9 @@
 
 document.getElementById("generate-question").addEventListener("click", () => {
-    console.log("button clicked");
+    
 
     //check if page valid:
     chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
-        console.log('got to chrome.tabs.query');
         const thisTabId = tabs[0].id;
          // Check if the URL is a valid page
         if (tabs[0].url.startsWith('chrome://') || tabs[0].url.startsWith('about:')) {
@@ -39,16 +38,13 @@ document.getElementById("generate-question").addEventListener("click", () => {
         function injectContentScript() {
             if (!window.injectContentScriptFlag) {
                 window.injectContentScriptFlag = true;
-                console.log("Content.js injected for the first time in popup.js");
                 chrome.scripting.executeScript(
                     {
                         target: {tabId: thisTabId},
                         files: ["content.js"]
                     }
                 );
-            } else {
-                console.log("Content.js already injected by popup.js");
-            }
+            } 
         }
         
     })

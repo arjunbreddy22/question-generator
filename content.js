@@ -1,11 +1,6 @@
-
-
-//STILL NEED TO FIX INJECTING CONTENT.JS MULTIPLE TIMES ISSUE
-//display content to popup
 var curQuestion = "";
 console.log(window.getSelection().toString().trim());
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-    console.log("Received message:", message);
     const selectedText = window.getSelection().toString().trim();
     if (message.action === "displayQuestion") {
         (async () => {
@@ -51,7 +46,6 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
                         const data = await response.json();
                         const question = data.choices[0].message.content.trim();
                         curQuestion = question;
-                        console.log("Sending response...");
                         sendResponse(question);
                     } else {
                         console.error("Error:", response.statusText);
@@ -99,7 +93,6 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
                     if (response.ok) {
                         const data = await response.json();
                         const answer = data.choices[0].message.content.trim();
-                        console.log("Sending answer response...");
                         sendResponse(answer);
                     } else {
                         console.error("Error:", response.statusText);
@@ -114,7 +107,6 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         })();
         return true;
     }
-    console.log("Sending response4...");
     console.error("Unknown action received:", message.action);
     sendResponse(null);
     return true;
