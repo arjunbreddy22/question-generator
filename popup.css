@@ -1,0 +1,12 @@
+
+
+.card {
+    background-color: #ffffff;
+    border: 2px solid red;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.9);
+    padding: 16px;
+    width: 250px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #333;
+}
