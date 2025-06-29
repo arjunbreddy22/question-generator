@@ -38,7 +38,7 @@ Behind the scenes, the extension:
 ## ➕ Add to Chrome
 
 👉 [Install from the Chrome Web Store]([https://chrome.google.com/webstore/detail/generate-similar-questions/your-extension-id-here](https://chromewebstore.google.com/detail/generate-similar-question/gmgodgbopnkjnekkjdnmjoojhakhdhdm))
-
+    https://chromewebstore.google.com/detail/generate-similar-question/gmgodgbopnkjnekkjdnmjoojhakhdhdm
 ---
 
 ## 📄 License
