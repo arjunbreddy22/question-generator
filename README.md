@@ -49,4 +49,4 @@ MIT License — feel free to use and modify for educational or personal use.
 
 ## 🙋‍♂️ Author
 
-Built by Ajun Reddy to make studying smarter, faster, and more personalized with AI.
+Built by Arjun Reddy to make studying smarter, faster, and more personalized with AI.
